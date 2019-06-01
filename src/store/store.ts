@@ -6,9 +6,9 @@ export class Store {
   private subscribers: Function[];
 
   constructor(reducers = {}, initialState = {}) {
-    this.state = this.reduce(initialState, {});
-    this.reducers = reducers;
     this.subscribers = [];
+    this.reducers = reducers;
+    this.state = this.reduce(initialState, {});
     console.log('~~~~~ this.reducers: ', this.reducers);
   }
   
