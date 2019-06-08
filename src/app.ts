@@ -11,18 +11,7 @@ const reducers = {
   todos: fromStore.reducer
 };
 
-
-
-const initialState = {
-  loaded: false,
-  loading: false,
-  data: [ {
-    label: 'Watch movie',
-    complete: false
-  } ]
-};
-
-const store = new fromStore.Store(reducers, initialState);
+const store = new fromStore.Store(reducers);
 
 button.addEventListener(
   'click',
@@ -43,6 +32,10 @@ button.addEventListener(
   false
 );
 
+const unsubscribe = store.subscribe(state => renderTodos(state.todos.data));
+
+destroy.addEventListener('click', unsubscribe, false);
+
 todoList.addEventListener('click', function(event) {
   const target = event.target as HTMLButtonElement;
   if (target.nodeName.toLowerCase() === 'button') {
@@ -50,4 +43,3 @@ todoList.addEventListener('click', function(event) {
   }
 });
 
-store.subscribe(state => renderTodos(state.todos.data));

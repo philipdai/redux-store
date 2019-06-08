@@ -8,7 +8,6 @@ export const initialState = {
 };
 
 export function reducer(state = initialState, action: {type: string; payload: any}) {
-  console.warn(state);
   switch(action.type) {
     case 'ADD_TODO': {
       const todo = action.payload;

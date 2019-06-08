@@ -9,7 +9,6 @@ export class Store {
     this.subscribers = [];
     this.reducers = reducers;
     this.state = this.reduce(initialState, {});
-    console.log('~~~~~ this.reducers: ', this.reducers);
   }
   
 
@@ -20,29 +19,27 @@ export class Store {
   subscribe(fn) {
     this.subscribers = [...this.subscribers, fn];
     this.notify();
+    return () => {
+      this.subscribers = this.subscribers.filter(sub => sub != fn);
+    }
   }
 
   dispatch(action) {
     this.state = this.reduce(this.state, action);
     this.notify();
-    
   }
 
   private notify() {
-    console.log('this.state: ', this.value);
     this.subscribers.forEach(fn => fn(this.value));
   }
 
   private reduce(state, action) {
-    console.warn('====', state);
-    console.log('<<<<<< this.reducers: ', this.reducers);
     const newState = {};
     
     for (const prop in this.reducers) {
-      
-      console.log();
       newState[prop] = this.reducers[prop](state[prop], action);
     }
+
     return newState;
   }
 }
